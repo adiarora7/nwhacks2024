@@ -13,7 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-
+import Head from 'next/head'
 
 export default function Login() {
   const router = useRouter();
@@ -54,6 +54,10 @@ export default function Login() {
   };
 
     return (
+      <>
+      <Head>
+        <link rel="icon" href="https://imgur.com/reUj3mN.png" /> 
+      </Head>
       <main className={styles.main}>
             <img className={styles.img} src="https://imgur.com/0W2V0Ni.png"/>
         <div className={styles.ocean}>
@@ -72,6 +76,7 @@ export default function Login() {
                       Sign in with Google
                       </button>
           </Card>
-    </main>
+      </main>
+    </>
   );
 }

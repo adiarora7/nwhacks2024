@@ -67,47 +67,47 @@ export default function Form({ }) {
       <p className={styles.tagline}>Welcome to Mapcessibility.</p>
       <MotionWrapper>
       <Card className={styles.question_body}>
-  <CardHeader>
-    <CardTitle className={styles.cardtitle}>What accessibility needs should we consider when generating your routes?</CardTitle>
-    <CardDescription  className={styles.cardsub}>Select each of the following that apply:</CardDescription>
-    <CardContent>
-    <form onSubmit={onSubmit} className={styles.form}>
-          <div className={styles.checkbox}>
-            <input
-              className={styles.input}
-              type="checkbox"
-              id="mobility"
-              checked={mobility}
-              onChange={onMobilityChange}
-            />
-            <label htmlFor="mobility" className={styles.options}>Mobility Impairment (ex. use of wheelchair)</label>
-          </div>
-          <div className={styles.checkbox}>
-            <input
-              className={styles.input}
-              type="checkbox"
-              id="hearing"
-              checked={hearing}
-              onChange={onHearingChange}
-            />
-            <label htmlFor="mobility" className={styles.options}>Hearing Impairment (e.g., deafness or hard of hearing)</label>
-          </div>
-          <div className={styles.checkbox}>
-            <input
-              className={styles.input}
-              type="checkbox"
-              id="vision"
-              checked={vision}
-              onChange={onVisionChange}
-            />
-            <label htmlFor="mobility" className={styles.options}>Visual Impairment (e.g., blindness or low vision)</label>
-          </div>
-          <button className={styles.button} type="submit">Create Account</button>
-        </form>
-    </CardContent>
-  </CardHeader>
-</Card>
-</MotionWrapper>
-    </main>
+      <CardHeader>
+        <CardTitle className={styles.cardtitle}>What accessibility needs should we consider when generating your routes?</CardTitle>
+        <CardDescription className={styles.cardsub}>Select each of the following that apply:</CardDescription>
+        <CardContent className={styles.cardcontent}>
+          <form onSubmit={onSubmit} className={styles.form}>
+            <div className={styles.checkbox}>
+              <input
+                className={styles.input}
+                type="checkbox"
+                id="mobility"
+                checked={mobility}
+                onChange={onMobilityChange}
+              />
+              <label htmlFor="mobility" className={styles.options}>Mobility Impairment (ex. use of wheelchair)</label>
+            </div>
+            <div className={styles.checkbox}>
+              <input
+                className={styles.input}
+                type="checkbox"
+                id="hearing"
+                checked={hearing}
+                onChange={onHearingChange}
+              />
+              <label htmlFor="mobility" className={styles.options}>Hearing Impairment (e.g., deafness or hard of hearing)</label>
+            </div>
+            <div className={styles.checkbox}>
+              <input
+                className={styles.input}
+                type="checkbox"
+                id="vision"
+                checked={vision}
+                onChange={onVisionChange}
+              />
+              <label htmlFor="mobility" className={styles.options}>Visual Impairment (e.g., blindness or low vision)</label>
+            </div>
+            <button className={styles.button} type="submit">Create Account</button>
+          </form>
+        </CardContent>
+      </CardHeader>
+    </Card>
+  </MotionWrapper>
+  </main>
   );
 }
