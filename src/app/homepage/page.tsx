@@ -6,7 +6,6 @@ import { Search } from "../components/Search";
 import { Location } from "../components/Search/SearchBox";
 import BuildingCard from "../components/BuildingCard/BuildingCard";
 
-
 export default function App() {
 
     const [ coordinates, setCoordinates] = useState<Location>();
