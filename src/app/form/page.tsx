@@ -2,9 +2,15 @@
 
 import React, { useState } from 'react';
 import styles from '../page.module.css';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { saveDashboardData } from '../firestoreService';
 
+export default function Form({ }) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
-export default function Form() {
+  const username = searchParams.get("user");
+  console.log('adsadadsadd' + username);
 
   const [mobility, setMobility] = useState(false);
   const [vision, setVision] = useState(false);
@@ -23,13 +29,36 @@ export default function Form() {
     setVision(e.target.checked);
   }
 
+  const data = {
+    mobility: mobility, 
+    vision: vision, 
+    hearing: hearing 
+  }
+  
+
+  const onSubmit = async (e: any) => {
+    e.preventDefault();
+
+    const success = await saveDashboardData(`users/${username}`, data);
+    if (success) {
+      console.log("success");
+      router.push("/homepage");
+    } else {
+      console.log("failure");
+    }
+  };
+
   return (
     <main className={styles.main}>
+      <div className={styles.ocean}>
+          <div className={styles.wave}></div>
+          <div className={`${styles.wave} ${styles.wave2}`}></div>
+      </div>
       <p className={styles.tagline}>Accessible indoor maps for all.</p>
       <div className={styles.question_body}>
         <img className={styles.img} src="https://imgur.com/0W2V0Ni.png"/>
         <p className={styles.question}>Do you have any accessibility needs that we should consider when generating your routes?</p>
-        <form className={styles.form}>
+        <form onSubmit={onSubmit} className={styles.form}>
           <div className={styles.checkbox}>
             <input
               className={styles.input}
@@ -60,7 +89,7 @@ export default function Form() {
             />
             <label htmlFor="mobility" className={styles.options}>Visual Impairment (e.g., blindness or low vision)</label>
           </div>
-          <button className={styles.button}>Create Account</button>
+          <button className={styles.button} type="submit">Create Account</button>
         </form>
         </div>
     </main>
