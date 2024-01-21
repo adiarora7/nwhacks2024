@@ -1,4 +1,5 @@
 import { Location } from "../Search/SearchBox"
+import MotionWrapper from '../motion';
 import styles from "./buildingCard.module.scss";
 
 export default function BuildingCard({
