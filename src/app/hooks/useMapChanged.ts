@@ -1,9 +1,9 @@
 import {
   E_SDK_EVENT,
   E_SDK_EVENT_PAYLOAD,
-  MapView,
-} from '@mappedin/mappedin-js';
-import { useCallback, useEffect } from 'react';
+  MapView
+} from "@mappedin/mappedin-js";
+import { useCallback, useEffect } from "react";
 
 /**
  * Declarative API to subscribe to an E_SDK_EVENT.MAP_CHANGED

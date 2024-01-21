@@ -24,6 +24,9 @@ export default function useMapView(
 
       isRendering.current = true;
 
+      console.log(
+        `[useMapView] Rendering "${venue.venue.name}" to element "${el.id}".`
+      );
       const _mapView = await showVenue(el, venue, options);
       setMapView(_mapView);
 
@@ -45,7 +48,7 @@ export default function useMapView(
         renderVenue(element, venue, options);
       }
     },
-    [mapView, venue, renderVenue, options]
+    [renderVenue, mapView, isRendering, mapRef]
   );
 
   // Intialize the MapView if the element has been created the and venue loaded afterwards
@@ -57,7 +60,7 @@ export default function useMapView(
     if (mapRef.current != null && venue != null) {
       renderVenue(mapRef.current, venue, options);
     }
-  }, [venue, mapView, renderVenue, options]);
+  }, [venue, mapRef.current, mapView, renderVenue]);
 
   return { mapView, elementRef };
 }
