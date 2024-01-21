@@ -1,7 +1,11 @@
-import { TGetVenueOptions, Mappedin, getVenue } from "@mappedin/mappedin-js";
-import React, { useState, useEffect } from "react";
+import {
+  TGetVenueMakerOptions,
+  Mappedin,
+  getVenueMaker,
+} from '@mappedin/mappedin-js';
+import React, { useState, useEffect } from 'react';
 
-export function useVenue(options: TGetVenueOptions) {
+export function useVenue(options: TGetVenueMakerOptions) {
   // Store the venue object in a state variable
   const [venue, setVenue] = useState<Mappedin | undefined>();
 
@@ -10,7 +14,7 @@ export function useVenue(options: TGetVenueOptions) {
     let ignore = false;
     const fetchData = async () => {
       try {
-        const data = await getVenue(options);
+        const data = await getVenueMaker(options);
         // Update state variable after data is fetched
         if (!ignore) {
           setVenue(data);
