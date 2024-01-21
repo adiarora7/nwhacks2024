@@ -7,6 +7,13 @@ import { auth, provider } from '../../../firebase-config';
 import { signInWithPopup, signOut } from 'firebase/auth';
 import { getRealtimeData } from '../firestoreService';
 import { useRouter } from 'next/navigation';
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+
 
 export default function Login() {
   const router = useRouter();
@@ -60,23 +67,30 @@ export default function Login() {
 
     return (
       <main className={styles.main}>
+            <img className={styles.img} src="https://imgur.com/0W2V0Ni.png"/>
         <div className={styles.ocean}>
           <div className={styles.wave}></div>
           <div className={`${styles.wave} ${styles.wave2}`}></div>
         </div>
         <p className={styles.tagline}>Accessible indoor maps for all.</p>
-        <div className={styles.body}>
-        <img className={styles.img} src="https://imgur.com/0W2V0Ni.png"/>
+        <p>Powered by Mappedin</p>
           {/* <div className={styles.logo}>
               <img className={styles.img} src="https://imgur.com/0W2V0Ni.png"/>
               <p className={styles.logoText}>mapcessibility</p>
           </div> */}
-          <p className={styles.text}>Create an account</p>
-            <button onClick={signInWithGoogle} className={styles.signin_button} type="submit">
-              <img className={styles.google} src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png" alt="google logo" />
-              Login/Sign-Up With Google
+          <Card className={styles.body}>
+  <CardHeader>
+    <CardTitle>Start navigating</CardTitle>
+    <CardDescription>Sign up or Login</CardDescription>
+  </CardHeader>
+  <button onClick={signInWithGoogle} className={styles.signin_button}>
+            <img className={styles.google} src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png" alt="google logo" />
+            Login/Sign-Up with Google
             </button>
-        </div>
+
+</Card>
+
+       
     </main>
   );
 }
