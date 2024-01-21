@@ -4,6 +4,16 @@ import React, { useState } from 'react';
 import styles from '../page.module.css';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { saveDashboardData } from '../firestoreService';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Checkbox } from "@/components/ui/checkbox"
+
 
 export default function Form({ }) {
   const router = useRouter();
@@ -54,11 +64,13 @@ export default function Form({ }) {
           <div className={styles.wave}></div>
           <div className={`${styles.wave} ${styles.wave2}`}></div>
       </div>
-      <p className={styles.tagline}>Accessible indoor maps for all.</p>
-      <div className={styles.question_body}>
-        <img className={styles.img} src="https://imgur.com/0W2V0Ni.png"/>
-        <p className={styles.question}>Do you have any accessibility needs that we should consider when generating your routes?</p>
-        <form onSubmit={onSubmit} className={styles.form}>
+      <p className={styles.tagline}>Welcome to Mapcessibility.</p>
+      <Card className={styles.question_body}>
+  <CardHeader>
+    <CardTitle className={styles.cardtitle}>What accessibility needs should we consider when generating your routes?</CardTitle>
+    <CardDescription  className={styles.cardsub}>Select each of the following that apply:</CardDescription>
+    <CardContent>
+    <form onSubmit={onSubmit} className={styles.form}>
           <div className={styles.checkbox}>
             <input
               className={styles.input}
@@ -91,7 +103,9 @@ export default function Form({ }) {
           </div>
           <button className={styles.button} type="submit">Create Account</button>
         </form>
-        </div>
+    </CardContent>
+  </CardHeader>
+</Card>
     </main>
   );
 }

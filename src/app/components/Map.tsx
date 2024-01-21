@@ -33,6 +33,7 @@ export default function BasicExample() {
     },
   } as TGeolocationObject);
   const directionsRef = useRef<MappedinDirections | null>(null);
+  const positionUpdater = useRef<PositionUpdater | null>(null); //try this?
 
   /*
    * API keys and options for fetching the venue must be memoized
@@ -104,14 +105,18 @@ export default function BasicExample() {
     //Pass the directions to Journey to draw a path and icons.
     mapView.Journey.draw(directions);
 
+    positionUpdater.current = new PositionUpdater();
+
     // IMPLEMENTING BLUE DOT HERE
     mapView.BlueDot.enable({
       allowImplicitFloorLevel: true,
       smoothing: false,
-      positionUpdater: new PositionUpdater(),
+      positionUpdater: positionUpdater.current!,
       useRotationMode: true,
       showBearing: true,
     });
+
+    // positionUpdater.current.update(blueDotPosition.current);
 
     //Set the camera state to follow the user's location on the map,
     //marked by a blue dot.
@@ -141,8 +146,7 @@ export default function BasicExample() {
     };
 
     console.log(`tapping is working for blue dot`, newBlueDotPosition);
-
-    // positionUpdater.current.update(newBlueDotPosition);
+    positionUpdater.current!.update(newBlueDotPosition); // this raises 'Uncaught TypeError: Cannot read properties of null (reading 'maps')'
 
     // We can get the clicked geolocation
     console.log(

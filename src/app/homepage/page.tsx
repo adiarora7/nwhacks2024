@@ -1,49 +1,31 @@
-'use client';
-import { useEffect, useState } from 'react';
+"use client"
+import MapBoxMap from "../components/MapBoxMap";
+import { useState } from "react";
 import * as React from 'react';
-import Map from 'react-map-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
+import { Search } from "../components/Search";
+import { Location } from "../components/Search/SearchBox";
+import BuildingCard from "../components/BuildingCard/BuildingCard";
 
 export default function App() {
-  const mapboxAccessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
-  const [viewport, setViewport] = useState({
-    longitude: -123.246231,
-    latitude: 49.26244,
-    zoom: 16,
-  });
 
-  useEffect(() => {
-    // Function to get the current position
-    const getCurrentPosition = () => {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const { longitude, latitude } = position.coords;
-            setViewport({
-              ...viewport,
-              longitude,
-              latitude,
-            });
-          },
-          (error) => {
-            console.error('Error getting current position:', error);
-          }
-        );
-      } else {
-        console.error('Geolocation is not supported by this browser.');
-      }
-    };
+    const [ coordinates, setCoordinates] = useState<Location>();
+    
+    const locations = [
+        { name: "Life Sciences Institute", address:"2350 Health Sciences Mall, Vancouver, BC V6T 1Z3", longitude: -123.246231, latitude: 49.262440},
+        { name: "UBC Life Sciences Centre (LSC) Perugia Café", address:"2350 Health Sciences Mall, Vancouver, BC V6T 2A1", longitude: -123.24505587387512 , latitude:49.26246728250251 },
+        { name: "UBC Life Building", address:"6138 Student Union Blvd, Vancouver, BC V6T 1Z1", longitude: -123.25018937944034, latitude: 49.26775100554091 },
+        { name: "AMS Student Nest", address:"6133 University Blvd, Vancouver, BC V6T 1Z1", longitude: -123.25001497390605, latitude: 49.26661897238175},
+        { name: "AMS Food Bank", address:"6133 University Blvd, Vancouver, BC V6T 1Z1", longitude: -123.24986751434675, latitude: 49.26756898352638  },
+        { name: "Ambleside Park | West Vancouver", address:"1150 Marine Dr, West Vancouver, BC V7T 1B1", longitude:-123.15060281606733 , latitude:49.32478641945975 }
+      ];
 
-    // Call the function on component mount
-    getCurrentPosition();
-  }, []); // Empty dependency array to run the effect only once on mount
-
-  return (
-    <Map
-      mapboxAccessToken={mapboxAccessToken}
-      initialViewState={viewport}
-      style={{ width: 600, height: 700 }}
-      mapStyle='mapbox://styles/mapbox/streets-v9'
-    />
-  );
-}
+    return (
+        <div>
+            <Search locations={locations} handleCoordinate={setCoordinates} /> 
+            <MapBoxMap coordinates={coordinates}  />
+            {coordinates&&<BuildingCard/>}
+        </div>
+        
+       
+    );
+  }
