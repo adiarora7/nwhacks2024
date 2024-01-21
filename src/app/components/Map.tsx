@@ -90,6 +90,11 @@ export default function BasicExample() {
     const startLocation = venue.locations.find((location) =>
       location.id.includes('footprintcomponent')
     );
+
+    mapView.Camera.focusOn({
+      polygons: startLocation?.polygons,
+      nodes: startLocation?.nodes,
+    });
     const endLocation = venue.locations.find(
       (location) => location.id == 'location-obstruction-ey'
     );
@@ -103,20 +108,21 @@ export default function BasicExample() {
     directionsRef.current = directions;
 
     //Pass the directions to Journey to draw a path and icons.
-    mapView.Journey.draw(directions);
+    mapView.Journey.draw(directions); //COMMENT OUT
 
     positionUpdater.current = new PositionUpdater();
 
     // IMPLEMENTING BLUE DOT HERE
-    mapView.BlueDot.enable({
-      allowImplicitFloorLevel: true,
-      smoothing: false,
-      positionUpdater: positionUpdater.current!,
-      useRotationMode: true,
-      showBearing: true,
-    });
 
-    // positionUpdater.current.update(blueDotPosition.current);
+    const coordinate = mapView.currentMap.createCoordinate(
+      49.262167877526565,
+      -123.24510595416766
+    );
+    const blueDot = mapView.Markers.add(
+      coordinate,
+      '<div className="blue-dot"></div>'
+    );
+    mapView.Markers.animate(blueDot, coordinate);
 
     //Set the camera state to follow the user's location on the map,
     //marked by a blue dot.
@@ -135,6 +141,23 @@ export default function BasicExample() {
     if (!mapView || !venue) {
       return;
     }
+    const coord = mapView.currentMap.createCoordinate(
+      props.position.latitude,
+      props.position.longitude
+    );
+    const blueDot = mapView.Markers.add(
+      coord,
+      `
+  <div class="marker-container" style="width:20px;height:20px;border:2px solid #00FFFF; border-radius: 9999px; overflow: hidden;">
+  </div>
+`,
+      {
+        interactive: true, // Make markers clickable
+        rank: COLLISION_RANKING_TIERS.ALWAYS_VISIBLE, // Marker collision priority
+        anchor: MARKER_ANCHOR.TOP, // Position of the Marker
+      }
+    );
+    mapView.Markers.animate(blueDot, coord);
 
     const newBlueDotPosition = {
       timestamp: Date.now(),
