@@ -20,7 +20,6 @@ export default function MapBoxMap({
 
     useEffect(()=>{
 
-
       if(coordinates){
         setViewport({longitude:coordinates.longitude, latitude:coordinates.latitude, zoom:16})
       }
@@ -32,7 +31,7 @@ export default function MapBoxMap({
         mapboxAccessToken={mapboxAccessToken}
         {...viewport}
         onMove={evt => setViewport(evt.viewState)}
-        style={{ width:456, height: 800}}
+        style={{display: 'flex', position: 'absolute', zIndex: 0}}
         mapStyle="mapbox://styles/mapbox/streets-v12"
       />
     );
