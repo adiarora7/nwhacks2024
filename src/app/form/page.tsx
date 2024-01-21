@@ -1,5 +1,5 @@
 "use client";
-
+import MotionWrapper from '../components/motion';
 import React, { useState } from 'react';
 import styles from '../page.module.css';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -12,7 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Checkbox } from "@/components/ui/checkbox"
+
 
 
 export default function Form({ }) {
@@ -65,6 +65,7 @@ export default function Form({ }) {
           <div className={`${styles.wave} ${styles.wave2}`}></div>
       </div>
       <p className={styles.tagline}>Welcome to Mapcessibility.</p>
+      <MotionWrapper>
       <Card className={styles.question_body}>
       <CardHeader>
         <CardTitle className={styles.cardtitle}>What accessibility needs should we consider when generating your routes?</CardTitle>
@@ -106,6 +107,7 @@ export default function Form({ }) {
         </CardContent>
       </CardHeader>
     </Card>
+  </MotionWrapper>
   </main>
   );
 }
