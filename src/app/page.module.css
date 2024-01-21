@@ -126,7 +126,7 @@
   background-color: #319795;
   border-radius: 12px;
   border: none;
-  padding: 0.2rem 0.8rem;
+  padding: 0.8rem 0.2rem;
   cursor: pointer;
   display: flex;
   flex-direction: row;
@@ -269,10 +269,18 @@
   transform: rotate(45deg);
 }
 
+.cardcontent {
+  margin-top: 0px;
+}
+
 @media (max-width: 768px) {
   .img {
     width: 26%;
     margin-top: -30px;
+  }
+
+  .cardcontent {
+    margin-top: -12px;
   }
 
   .body {
@@ -316,7 +324,6 @@
   
   .tagline {
     margin-top: 28px;
-    margin-bottom: -12px;
     font-size: 1.6rem;
   }
 

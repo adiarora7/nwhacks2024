@@ -70,7 +70,7 @@ export default function Form({ }) {
       <CardHeader>
         <CardTitle className={styles.cardtitle}>What accessibility needs should we consider when generating your routes?</CardTitle>
         <CardDescription className={styles.cardsub}>Select each of the following that apply:</CardDescription>
-        <CardContent style={{ marginTop: "-14px"}}>
+        <CardContent className={styles.cardcontent}>
           <form onSubmit={onSubmit} className={styles.form}>
             <div className={styles.checkbox}>
               <input
@@ -80,7 +80,7 @@ export default function Form({ }) {
                 checked={mobility}
                 onChange={onMobilityChange}
               />
-              <label htmlFor="mobility" className={styles.options}>Mobility Impairment <br/>(ex. use of wheelchair)</label>
+              <label htmlFor="mobility" className={styles.options}>Mobility Impairment (ex. use of wheelchair)</label>
             </div>
             <div className={styles.checkbox}>
               <input
