@@ -19,7 +19,7 @@ export default function Form() {
   
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const searchParams = useSearchParams();
+      const searchParams = new URLSearchParams(window.location.search);
       setUsername(searchParams.get("user") || '');
 
       console.log(username);
