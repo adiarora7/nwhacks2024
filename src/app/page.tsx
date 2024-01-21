@@ -1,5 +1,6 @@
 import dynamic from 'next/dynamic';
 import React from 'react';
+import styles from './page.module.css';
 
 const MapWithNoSSR = dynamic(() => import('../app/components/Map'), {
   ssr: false
@@ -7,9 +8,10 @@ const MapWithNoSSR = dynamic(() => import('../app/components/Map'), {
 
 export default function Home() {
   return (
-    <div>
+    <main>
       <h1>Mappedin Integration with Next.js</h1>
       <MapWithNoSSR />
-    </div>
+    </main>
   );
 }
+
