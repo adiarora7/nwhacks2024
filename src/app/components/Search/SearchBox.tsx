@@ -46,6 +46,11 @@ export function Search({ value, onChange, onSearch, error, locations, handleCoor
     setShowDropdown(false); // Hide dropdown on search
   };
 
+const handleSelectCoordinate = (location: Location) => {
+  console.log(`a coordinate was clicked`, location);
+  handleCoordinate(location)
+}
+
   return (
     <div className={styles.search}>
       <input
@@ -69,7 +74,7 @@ export function Search({ value, onChange, onSearch, error, locations, handleCoor
               onClick={() => {
                 setText(location.name);
                 setShowDropdown(false); // Hide dropdown on item click
-                handleCoordinate(location)
+                handleSelectCoordinate(location)
               }}
             >
               <div className={styles.name}>{location.name}</div>
