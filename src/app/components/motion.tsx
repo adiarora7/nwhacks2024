@@ -18,15 +18,15 @@ const pageVariants = {
 const pageTransition = {
   type: 'tween',
   ease: 'anticipate',
-  duration: 1.2, 
+  duration: 1.2,
 };
 
-const MotionWrapper = ({ children }) => {
+const MotionWrapper = ({ children }: { children: any }) => {
   return (
     <motion.div
-      initial="initial"
-      animate="in"
-      exit="out"
+      initial='initial'
+      animate='in'
+      exit='out'
       variants={pageVariants}
       transition={pageTransition}
     >
