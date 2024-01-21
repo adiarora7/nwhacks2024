@@ -23,9 +23,6 @@ export default function Form() {
       setUsername(searchParams.get("user") || '');
 
       console.log(username);
-      // Example of safely using devicePixelRatio
-      const pixelRatio = window.devicePixelRatio;
-      console.log('Device Pixel Ratio:', pixelRatio);
     }
   }, []);
 
@@ -35,7 +32,6 @@ export default function Form() {
 
   const onMobilityChange = (e: any) => {
     setMobility(e.target.checked);
-    console.log(!mobility);
   }
 
   const onHearingChange = (e: any) => {
