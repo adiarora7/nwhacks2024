@@ -33,7 +33,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "tailwind.config.js"
-  ],
+, "src/app/login/auth.js"  ],
   "exclude": [
     "node_modules"
   ]
