@@ -1,5 +1,9 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import dynamic from 'next/dynamic';
+import React from 'react';
+
+const MapWithNoSSR = dynamic(() => import('../app/components/Map'), {
+  ssr: false
+});
 
 export default function Home() {
   return (
@@ -17,6 +21,9 @@ export default function Home() {
         Sign Up With Google
         </button>
       </div>
+
+      <h1>Mappedin Integration with Next.js</h1>
+      <MapWithNoSSR />
     </main>
   );
 }
