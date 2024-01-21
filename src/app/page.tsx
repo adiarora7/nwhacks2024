@@ -72,9 +72,9 @@ export default function Login() {
               <CardDescription className={styles.block}>Sign-Up or Login</CardDescription>
             </CardHeader>
             <button onClick={signInWithGoogle} className={styles.signin_button}>
-                      <img className={styles.google} src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png" alt="google logo" />
-                      Sign in with Google
-                      </button>
+              <img className={styles.google} src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png" alt="google logo" />
+                Sign in with Google
+            </button>
           </Card>
       </main>
     </>
