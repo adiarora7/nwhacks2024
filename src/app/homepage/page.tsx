@@ -11,7 +11,7 @@ export default function App() {
     const [ coordinates, setCoordinates] = useState<Location>();
     
     const locations = [
-        { name: "Life Sciences Institute", address:"2350 Health Sciences Mall, Vancouver, BC V6T 1Z3", longitude: -123.246231, latitude: 49.262440},
+        { name: "Life Sciences Institute", address:"2350 Health Sciences Mall, Vancouver, BC V6T 1Z3", longitude:  -123.24505171688546, latitude:49.26246145951568},
         { name: "UBC Life Sciences Centre (LSC) Perugia Café", address:"2350 Health Sciences Mall, Vancouver, BC V6T 2A1", longitude: -123.24505587387512 , latitude:49.26246728250251 },
         { name: "UBC Life Building", address:"6138 Student Union Blvd, Vancouver, BC V6T 1Z1", longitude: -123.25018937944034, latitude: 49.26775100554091 },
         { name: "AMS Student Nest", address:"6133 University Blvd, Vancouver, BC V6T 1Z1", longitude: -123.25001497390605, latitude: 49.26661897238175},
@@ -20,10 +20,10 @@ export default function App() {
       ];
 
     return (
-        <div>
+        <div className="w-screen h-screen flex items-end">
             <Search locations={locations} handleCoordinate={setCoordinates} /> 
+              {coordinates && <BuildingCard coordinates={coordinates} />}  
             <MapBoxMap coordinates={coordinates}  />
-            {coordinates&&<BuildingCard/>}
         </div>
         
        
