@@ -11,22 +11,27 @@ import {
   MappedinDirections,
 } from '@mappedin/mappedin-js';
 import '@mappedin/mappedin-js/lib/mappedin.css';
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import useMapClick from '../hooks/useMapClick';
 import useMapView from '../hooks/useMapView';
 import useVenueMaker from '../hooks/useVenueMaker';
+import clsx from 'clsx';
+
+const imageUrl =
+  'https://diginit.sites.olt.ubc.ca/files/2023/07/1.0410990-1024x683.jpg';
+
 /* This demo shows you how to configure and render a map. */
 export default function BasicExample() {
-  const mapContainerRef = useRef(null);
-  const positionUpdater = useRef(new PositionUpdater());
+  const [isMovementImpaired, setIsMovementImpaired] = useState(false);
+  const [isAudioImpaired, setIsAudioImpaired] = useState(false);
   const blueDotPosition = useRef({
     timestamp: Date.now(),
     coords: {
-      latitude: 43.51913063428935,
-      longitude: -80.54104173445346,
-      accuracy: 4,
+      latitude: 49.26219137378182,
+      longitude: -123.24513153466945,
+      accuracy: 1,
     },
-  });
+  } as TGeolocationObject);
   const directionsRef = useRef<MappedinDirections | null>(null);
 
   /*
@@ -47,7 +52,7 @@ export default function BasicExample() {
 
   const mapOptions = useMemo<TMapViewOptions>(
     () => ({
-      backgroundColor: '#CFCFCF', // Background colour behind the map
+      backgroundColor: '#FFF', // Background colour behind the map
     }),
     []
   );
@@ -61,6 +66,25 @@ export default function BasicExample() {
       return;
     }
 
+    // IMPLEMENTING INTERACTIVITY FOR NODES HERE
+    mapView.addInteractivePolygonsForAllLocations();
+    venue.locations.forEach((location) => {
+      // An obstruction is something like a desk
+      if (location.id.includes('obstruction')) {
+        location.polygons.forEach((polygon) => {
+          mapView.setPolygonHoverColor(polygon, '#BFBFBF');
+        });
+      } else {
+        location.polygons.forEach((polygon) => {
+          mapView.setPolygonHoverColor(polygon, '#F0F0F0');
+        });
+      }
+    });
+
+    mapView.FloatingLabels.labelAllLocations({
+      interactive: true, // Make labels interactive
+    });
+
     // IMPLEMENTING NAVIGATION HERE
     const startLocation = venue.locations.find((location) =>
       location.id.includes('footprintcomponent')
@@ -68,8 +92,6 @@ export default function BasicExample() {
     const endLocation = venue.locations.find(
       (location) => location.id == 'location-obstruction-ey'
     );
-
-    console.log(`all locations`, venue.locations);
 
     if (!startLocation || !endLocation) {
       console.log(`startLocation / endLocation not found`);
@@ -82,59 +104,99 @@ export default function BasicExample() {
     //Pass the directions to Journey to draw a path and icons.
     mapView.Journey.draw(directions);
 
+    // IMPLEMENTING BLUE DOT HERE
+    mapView.BlueDot.enable({
+      allowImplicitFloorLevel: true,
+      smoothing: false,
+      positionUpdater: new PositionUpdater(),
+      useRotationMode: true,
+      showBearing: true,
+    });
+
     //Set the camera state to follow the user's location on the map,
     //marked by a blue dot.
     mapView.setState(STATE.FOLLOW);
 
-    //Enable the showing the user's location on the map as a Blue Dot.
-    //A positionUpdater is passed, which will provide the latitude and
-    //longtitude coordinates used to locate the user.
-
-    // not working when following the documentation's instructions for populating
-    // lattitude and longitude using 'directions' object
-    // blueDotPosition.current = {
-    //   ...blueDotPosition.current,
-    //   coords: {
-    //     ...blueDotPosition.current.coords,
-    //     latitude: directions.instructions[0].node.lat,
-    //     longitude: directions.instructions[0].node.lon,
-    //   },
-    // };
-
     console.log(`bluedot current position`, blueDotPosition.current);
-    positionUpdater.current.update(blueDotPosition.current);
+    // positionUpdater.update(blueDotPosition.current);
 
     // Label all spaces and desks which have a name
     mapView.FloatingLabels.labelAllLocations();
   }, [mapView, venue]);
 
-  // useEffect for testing blue dot
-  useEffect(() => {
-    if (!mapView) {
+  // from mappedin nwplpus codesandbox
+  // modifying this to try and include blue dot nav update logic
+  useMapClick(mapView, (props) => {
+    if (!mapView || !venue) {
       return;
     }
 
-    console.log(`running bluedot useEffect`);
-    mapView.BlueDot.enable({
-      smoothing: false,
-      positionUpdater: positionUpdater.current,
-      showBearing: true,
-    });
-
-    if (!directionsRef) {
-      console.log(`directionsRef is null`);
-      return;
-    }
-
-    blueDotPosition.current = {
-      ...blueDotPosition.current,
+    const newBlueDotPosition = {
+      timestamp: Date.now(),
       coords: {
-        ...blueDotPosition.current.coords,
-        latitude: directionsRef.current!.instructions[0].node.lat,
-        longitude: directionsRef.current!.instructions[0].node.lon,
+        latitude: props.position.latitude,
+        longitude: props.position.longitude,
+        accuracy: 4,
       },
     };
-  }, [mapView, directionsRef]);
+
+    console.log(`tapping is working for blue dot`, newBlueDotPosition);
+
+    // positionUpdater.current.update(newBlueDotPosition);
+
+    // We can get the clicked geolocation
+    console.log(
+      `[useMapClick] Clicked at ${props.position.latitude}, ${props.position.longitude}`
+    );
+
+    // Interact with clicked markers
+    for (const marker of props.markers) {
+      console.log(`[useMapClick] Clicked marker ID "${marker.id}"`);
+      mapView.Markers.remove(marker.id);
+      return;
+    }
+
+    // Interact with clicked Floating Labels
+    for (const label of props.floatingLabels) {
+      console.log(`[useMapClick] Clicked label "${label.text}"`);
+
+      if (label.node) {
+        mapView.FloatingLabels.remove(label.node);
+      }
+      return;
+    }
+
+    // Interact with clicked polygons
+    for (const polygon of props.polygons) {
+      console.log(`[useMapClick] Clicked polygon ID "${polygon.id}"`);
+
+      // Get location details for the clicked polygon
+      const location = mapView.getPrimaryLocationForPolygon(polygon);
+
+      // Convert the click information to a coordinate on the map
+      const clickedCoordinate = mapView.currentMap.createCoordinate(
+        props.position.latitude,
+        props.position.longitude
+      );
+
+      // And add a new Marker where we clicked
+      mapView.Markers.add(
+        clickedCoordinate,
+        // Provide a HTML template string for the Marker appearance
+        `
+  <div class="marker-container" style="width:100px;height:100px;border: 2px solid #00FFFF; border-radius: 9999px; overflow: hidden;">
+    <img src="${imageUrl}" style="width: 100%; height: 100%;" alt="Marker Image">
+  </div>
+`,
+        {
+          interactive: true, // Make markers clickable
+          rank: COLLISION_RANKING_TIERS.ALWAYS_VISIBLE, // Marker collision priority
+          anchor: MARKER_ANCHOR.TOP, // Position of the Marker
+        }
+      );
+      return;
+    }
+  });
 
   const handleBlueDotMove = (blueDotPosition: React.MutableRefObject<any>) => {
     console.log(`handleBlueDotMove`);
@@ -149,7 +211,15 @@ export default function BasicExample() {
 
     blueDotPosition.current = newBlueDotPosition;
     console.log(`newBlueDotPosition`, newBlueDotPosition);
-    positionUpdater.current.update(newBlueDotPosition);
+    // positionUpdater.update(newBlueDotPosition);
+  };
+
+  const toggleMovementImpairment = () => {
+    setIsMovementImpaired(!isMovementImpaired);
+  };
+
+  const toggleAudioImpairment = () => {
+    setIsAudioImpaired(!isAudioImpaired);
   };
 
   return (
@@ -191,45 +261,31 @@ export default function BasicExample() {
         <div className='z-10 flex flex-col w-full '>
           {/* accessibility buttons */}
           <div className='z-10 flex w-full flex-col max-w-[500px] justify-self-start p-4 mt-2'>
-            <button
+            {/* <button
               className='rounded-full bg-red-500 text-white w-12 h-12'
               onClick={() => {
                 handleBlueDotMove(blueDotPosition);
               }}
             >
               Simulate Step
+            </button> */}
+            <button
+              className={clsx(
+                'rounded-full text-white w-14 h-14 flex items-center justify-center p-3',
+                isMovementImpaired ? 'bg-[#D53F8C]' : 'bg-black'
+              )}
+              onClick={toggleMovementImpairment}
+            >
+              <WheelChairIcon />
             </button>
-            <button className='rounded-full bg-blue-500 hover:bg-blue-700 text-white w-12 h-12 flex items-center justify-center'>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                className='h-6 w-6'
-                fill='none'
-                viewBox='0 0 24 24'
-                stroke='#fff'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth={2}
-                  d='M12 6v6m0 0v6m0-6h6m-6 0H6'
-                />
-              </svg>
-            </button>
-            <button className='rounded-full bg-blue-500 hover:bg-blue-700 text-white w-12 h-12 flex items-center justify-center mt-6'>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                className='h-6 w-6'
-                fill='none'
-                viewBox='0 0 24 24'
-                stroke='currentColor'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth={2}
-                  d='M12 6v6m0 0v6m0-6h6m-6 0H6'
-                />
-              </svg>
+            <button
+              className={clsx(
+                'rounded-full text-white w-14 h-14 flex items-center justify-center mt-4 p-3',
+                isAudioImpaired ? 'bg-[#D53F8C]' : 'bg-black'
+              )}
+              onClick={toggleAudioImpairment}
+            >
+              <VoicePrintIcon />
             </button>
           </div>
           {/* bottom bar */}
@@ -253,5 +309,29 @@ export default function BasicExample() {
         <div id='map-container' ref={elementRef}></div>;
       </div>
     </div>
+  );
+}
+
+function VoicePrintIcon() {
+  return (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      viewBox='0 0 24 24'
+      fill='currentColor'
+    >
+      <path d='M5 7H7V17H5V7ZM1 10H3V14H1V10ZM9 2H11V20H9V2ZM13 4H15V22H13V4ZM17 7H19V17H17V7ZM21 10H23V14H21V10Z'></path>
+    </svg>
+  );
+}
+
+function WheelChairIcon() {
+  return (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      viewBox='0 0 24 24'
+      fill='currentColor'
+    >
+      <path d='M7.99837 10.3413L7.99793 12.5352C6.80239 13.2268 5.99805 14.5195 5.99805 16C5.99805 18.2091 7.78891 20 9.99805 20C11.4786 20 12.7712 19.1957 13.4628 18.0001L15.6565 18.0004C14.8327 20.3306 12.6103 22 9.99805 22C6.68434 22 3.99805 19.3137 3.99805 16C3.99805 13.3874 5.66782 11.1649 7.99837 10.3413ZM11.998 17C10.3412 17 8.99805 15.6569 8.99805 14V10C8.99805 8.34315 10.3412 7 11.998 7C13.6549 7 14.998 8.34315 14.998 10V15H16.4319C17.0803 15 17.6849 15.3141 18.0584 15.8362L18.1468 15.971L20.8555 20.4855L19.1406 21.5145L16.4319 17H11.998ZM11.998 2C13.3788 2 14.498 3.11929 14.498 4.5C14.498 5.88071 13.3788 7 11.998 7C10.6173 7 9.49805 5.88071 9.49805 4.5C9.49805 3.11929 10.6173 2 11.998 2Z'></path>
+    </svg>
   );
 }

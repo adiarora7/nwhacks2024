@@ -11,6 +11,7 @@
   "dependencies": {
     "@mappedin/mappedin-js": "^5.26.0",
     "@types/mapbox-gl": "^2.7.19",
+    "clsx": "^2.1.0",
     "firebase": "^10.7.2",
     "firebaseui": "^6.1.0",
     "geolib": "^3.3.4",
