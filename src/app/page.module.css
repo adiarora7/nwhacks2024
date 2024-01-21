@@ -77,6 +77,11 @@
 
 }
 
+.header {
+  padding: 0;
+  margin: 0;
+
+}
 .body {
   margin-top: 1.5rem;
   display: flex;
@@ -86,7 +91,6 @@
   box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.25);
   border-radius: 16px;
   padding: 20px 30px;
-  width: 50%;
   z-index: 1000;
   max-width: 100vw;
   overflow-x: hidden;
@@ -141,18 +145,18 @@
 .signin_button {
   font-size: 1rem;
   font-weight: 400;
-  max-width: 200px;
+  max-width: 150px;
   color: #319795;
   border: 2px solid #319795;
   background-color: white;
   border-radius: 12px;
-  padding: 6px 20px;
+  padding: 1rem 2rem;
   cursor: pointer;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 1rem;
 }
 
 .buttons {
@@ -231,6 +235,10 @@
   width: 100%;
   margin-top: -20px;
   margin-bottom: 0px;
+}
+
+.block {
+  white-space: nowrap; 
 }
 
 .input {
@@ -347,4 +355,19 @@
 .popupWebUrl:active,
 .popupWebUrl:focus {
 	outline: 0;
+}
+
+@media (max-width: 600px) {
+  .ocean {
+    height: 20%; /* Increase the percentage to make the ocean container taller */
+  }
+  
+  .wave {
+    height: 250px; /* Increase the height of the wave */
+  }
+
+  .wave:nth-of-type(2) {
+    /* If you want to adjust the second wave differently, do it here */
+    height: 30;
+  }
 }

@@ -63,13 +63,13 @@ export default function Login() {
         <p className={styles.tagline}>Accessible indoor maps for all.</p>
         <p>Powered by Mappedin</p>
           <Card className={styles.body}>
-            <CardHeader>
-              <CardTitle>Start navigating</CardTitle>
-              <CardDescription>Sign-Up or Login</CardDescription>
+            <CardHeader className={styles.header}>
+              <CardTitle className={styles.block}>Start navigating</CardTitle>
+              <CardDescription className={styles.block}>Sign-Up or Login</CardDescription>
             </CardHeader>
             <button onClick={signInWithGoogle} className={styles.signin_button}>
                       <img className={styles.google} src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png" alt="google logo" />
-                      Login/Sign-Up with Google
+                      Sign in with Google
                       </button>
           </Card>
     </main>
