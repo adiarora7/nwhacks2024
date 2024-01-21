@@ -11,6 +11,7 @@ export default function MapBoxMap({
 }:{
   coordinates?: Location
 }) {
+  
     const mapboxAccessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
     const [viewport, setViewport] = useState({
       longitude: -123.246231,

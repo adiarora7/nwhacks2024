@@ -91,6 +91,11 @@ export default function BasicExample() {
     const startLocation = venue.locations.find((location) =>
       location.id.includes('footprintcomponent')
     );
+
+    mapView.Camera.focusOn({
+      polygons: startLocation?.polygons,
+      nodes: startLocation?.nodes,
+    });
     const endLocation = venue.locations.find(
       (location) => location.id == 'location-obstruction-ey'
     );
@@ -104,20 +109,21 @@ export default function BasicExample() {
     directionsRef.current = directions;
 
     //Pass the directions to Journey to draw a path and icons.
-    mapView.Journey.draw(directions);
+    mapView.Journey.draw(directions); //COMMENT OUT
 
     positionUpdater.current = new PositionUpdater();
 
     // IMPLEMENTING BLUE DOT HERE
-    mapView.BlueDot.enable({
-      allowImplicitFloorLevel: true,
-      smoothing: false,
-      positionUpdater: positionUpdater.current!,
-      useRotationMode: true,
-      showBearing: true,
-    });
 
-    // positionUpdater.current.update(blueDotPosition.current);
+    const coordinate = mapView.currentMap.createCoordinate(
+      49.262167877526565,
+      -123.24510595416766
+    );
+    const blueDot = mapView.Markers.add(
+      coordinate,
+      '<div className="blue-dot"></div>'
+    );
+    mapView.Markers.animate(blueDot, coordinate);
 
     //Set the camera state to follow the user's location on the map,
     //marked by a blue dot.
@@ -136,15 +142,6 @@ export default function BasicExample() {
     if (!mapView || !venue) {
       return;
     }
-
-    const newBlueDotPosition = {
-      timestamp: Date.now(),
-      coords: {
-        latitude: props.position.latitude,
-        longitude: props.position.longitude,
-        accuracy: 4,
-      },
-    };
 
     console.log(`tapping is working for blue dot`, newBlueDotPosition);
     positionUpdater.current!.update(newBlueDotPosition); // this raises 'Uncaught TypeError: Cannot read properties of null (reading 'maps')'
@@ -303,7 +300,7 @@ export default function BasicExample() {
                 50m ● 3rd Floor
               </span>
               <button className='bg-rose-500 hover:bg-rose-700 text-white font-semibold py-1 px-4 rounded'>
-                <Link href="/homepage">Exit</Link>
+                <Link href='/homepage'>Exit</Link>
               </button>
             </div>
           </div>
@@ -319,11 +316,7 @@ export default function BasicExample() {
 
 function VoicePrintIcon() {
   return (
-    <svg
-      xmlns='http://www.w3.org/2000/svg'
-      viewBox='0 0 24 24'
-      fill='currentColor'
-    >
+    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='#FFFFFF'>
       <path d='M5 7H7V17H5V7ZM1 10H3V14H1V10ZM9 2H11V20H9V2ZM13 4H15V22H13V4ZM17 7H19V17H17V7ZM21 10H23V14H21V10Z'></path>
     </svg>
   );
@@ -331,11 +324,7 @@ function VoicePrintIcon() {
 
 function WheelChairIcon() {
   return (
-    <svg
-      xmlns='http://www.w3.org/2000/svg'
-      viewBox='0 0 24 24'
-      fill='currentColor'
-    >
+    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='#FFFFFF'>
       <path d='M7.99837 10.3413L7.99793 12.5352C6.80239 13.2268 5.99805 14.5195 5.99805 16C5.99805 18.2091 7.78891 20 9.99805 20C11.4786 20 12.7712 19.1957 13.4628 18.0001L15.6565 18.0004C14.8327 20.3306 12.6103 22 9.99805 22C6.68434 22 3.99805 19.3137 3.99805 16C3.99805 13.3874 5.66782 11.1649 7.99837 10.3413ZM11.998 17C10.3412 17 8.99805 15.6569 8.99805 14V10C8.99805 8.34315 10.3412 7 11.998 7C13.6549 7 14.998 8.34315 14.998 10V15H16.4319C17.0803 15 17.6849 15.3141 18.0584 15.8362L18.1468 15.971L20.8555 20.4855L19.1406 21.5145L16.4319 17H11.998ZM11.998 2C13.3788 2 14.498 3.11929 14.498 4.5C14.498 5.88071 13.3788 7 11.998 7C10.6173 7 9.49805 5.88071 9.49805 4.5C9.49805 3.11929 10.6173 2 11.998 2Z'></path>
     </svg>
   );
