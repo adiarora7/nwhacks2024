@@ -60,6 +60,10 @@ export default function Login() {
 
     return (
       <main className={styles.main}>
+        <div className={styles.ocean}>
+          <div className={styles.wave}></div>
+          <div className={`${styles.wave} ${styles.wave2}`}></div>
+        </div>
         <p className={styles.tagline}>Accessible indoor maps for all.</p>
         <div className={styles.body}>
         <img className={styles.img} src="https://imgur.com/0W2V0Ni.png"/>
@@ -68,12 +72,10 @@ export default function Login() {
               <p className={styles.logoText}>mapcessibility</p>
           </div> */}
           <p className={styles.text}>Create an account</p>
-          <div className={styles.buttons}>
             <button onClick={signInWithGoogle} className={styles.signin_button} type="submit">
               <img className={styles.google} src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png" alt="google logo" />
               Login/Sign-Up With Google
             </button>
-          </div>
         </div>
     </main>
   );

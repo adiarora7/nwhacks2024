@@ -50,6 +50,10 @@ export default function Form({ }) {
 
   return (
     <main className={styles.main}>
+      <div className={styles.ocean}>
+          <div className={styles.wave}></div>
+          <div className={`${styles.wave} ${styles.wave2}`}></div>
+      </div>
       <p className={styles.tagline}>Accessible indoor maps for all.</p>
       <div className={styles.question_body}>
         <img className={styles.img} src="https://imgur.com/0W2V0Ni.png"/>
