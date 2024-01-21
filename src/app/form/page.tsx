@@ -31,6 +31,7 @@ export default function Form() {
         <form className={styles.form}>
           <div className={styles.checkbox}>
             <input
+              className={styles.input}
               type="checkbox"
               id="mobility"
               checked={mobility}
@@ -40,6 +41,7 @@ export default function Form() {
           </div>
           <div className={styles.checkbox}>
             <input
+              className={styles.input}
               type="checkbox"
               id="hearing"
               checked={hearing}
@@ -49,6 +51,7 @@ export default function Form() {
           </div>
           <div className={styles.checkbox}>
             <input
+              className={styles.input}
               type="checkbox"
               id="vision"
               checked={vision}
@@ -56,7 +59,7 @@ export default function Form() {
             />
             <label htmlFor="mobility" className={styles.options}>Visual Impairment (e.g., blindness or low vision)</label>
           </div>
-          <button className={styles.button}>Submit</button>
+          <button className={styles.button}>Create Account</button>
         </form>
         </div>
     </main>
