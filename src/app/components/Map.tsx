@@ -3,14 +3,13 @@ import {
   TGetVenueMakerOptions,
   MARKER_ANCHOR,
   COLLISION_RANKING_TIERS,
-  TMapViewOptions,
-} from '@mappedin/mappedin-js';
-import '@mappedin/mappedin-js/lib/mappedin.css';
-import { useEffect, useMemo } from 'react';
-import { useMapClick } from '../../hooks/useMapClick';
-import useMapView from '../../hooks/useMapView';
-import useVenueMaker from '../../hooks/useVenueMaker';
-import './styles.css';
+  TMapViewOptions
+} from "@mappedin/mappedin-js";
+import "@mappedin/mappedin-js/lib/mappedin.css";
+import { useEffect, useMemo } from "react";
+import useMapClick from "../hooks/useMapClick";
+import useMapView from "../hooks/useMapView";
+import useVenueMaker from "../hooks/useVenueMaker";
 
 /* This demo shows you how to configure and render a map. */
 export default function BasicExample() {
@@ -20,10 +19,9 @@ export default function BasicExample() {
    */
   const credentials = useMemo<TGetVenueMakerOptions>(
     () => ({
-      mapId: '659efcf1040fcba69696e7b6',
-      key: '65a0422df128bbf7c7072349',
-      secret:
-        '5f72653eba818842c16c4fdb9c874ae02100ffced413f638b7bd9c65fd5b92a4',
+      mapId: "657cc670040fcba69696e69e",
+      key: "65a0422df128bbf7c7072349",
+      secret: "5f72653eba818842c16c4fdb9c874ae02100ffced413f638b7bd9c65fd5b92a4"
     }),
     []
   );
@@ -32,7 +30,7 @@ export default function BasicExample() {
 
   const mapOptions = useMemo<TMapViewOptions>(
     () => ({
-      backgroundColor: '#CFCFCF', // Background colour behind the map
+      backgroundColor: "#CFCFCF" // Background colour behind the map
     }),
     []
   );
@@ -51,10 +49,10 @@ export default function BasicExample() {
   }, [mapView, venue]);
 
   return (
-    <div id='app'>
-      <div id='ui'>
+    <div id="app">
+      <div id="ui">
         {/* Render some map details to the UI */}
-        {venue?.venue.name ?? 'Loading...'}
+        {venue?.venue.name ?? "Loading..."}
         {venue && (
           <select
             onChange={(e) => {
@@ -80,7 +78,9 @@ export default function BasicExample() {
           </select>
         )}
       </div>
-      <div id='map-container' ref={elementRef}></div>
+      <div id="map-container" ref={elementRef}></div>
     </div>
   );
 }
+
+export {};
