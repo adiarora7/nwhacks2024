@@ -1,6 +1,6 @@
 "use client";
 import MotionWrapper from '../components/motion';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from '../page.module.css';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { saveDashboardData } from '../firestoreService';
@@ -13,14 +13,21 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
-
-
-export default function Form({ }) {
+export default function Form() {
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const [username, setUsername] = useState('');
+  
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const searchParams = useSearchParams();
+      setUsername(searchParams.get("user") || '');
 
-  const username = searchParams.get("user");
-  console.log('adsadadsadd' + username);
+      console.log(username);
+      // Example of safely using devicePixelRatio
+      const pixelRatio = window.devicePixelRatio;
+      console.log('Device Pixel Ratio:', pixelRatio);
+    }
+  }, []);
 
   const [mobility, setMobility] = useState(false);
   const [vision, setVision] = useState(false);
@@ -45,7 +52,6 @@ export default function Form({ }) {
     hearing: hearing 
   }
   
-
   const onSubmit = async (e: any) => {
     e.preventDefault();
 
@@ -90,7 +96,7 @@ export default function Form({ }) {
                 checked={hearing}
                 onChange={onHearingChange}
               />
-              <label htmlFor="mobility" className={styles.options}>Hearing Impairment (e.g., deafness or hard of hearing)</label>
+              <label htmlFor="hearing" className={styles.options}>Hearing Impairment (e.g., deafness or hard of hearing)</label>
             </div>
             <div className={styles.checkbox}>
               <input
@@ -100,7 +106,7 @@ export default function Form({ }) {
                 checked={vision}
                 onChange={onVisionChange}
               />
-              <label htmlFor="mobility" className={styles.options}>Visual Impairment (e.g., blindness or low vision)</label>
+              <label htmlFor="visual" className={styles.options}>Visual Impairment (e.g., blindness or low vision)</label>
             </div>
             <button className={styles.button} type="submit">Create Account</button>
           </form>
