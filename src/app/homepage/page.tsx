@@ -22,8 +22,8 @@ export default function App() {
     return (
         <div className="w-screen h-screen flex items-end">
             <Search locations={locations} handleCoordinate={setCoordinates} /> 
-              {coordinates && <BuildingCard coordinates={coordinates} />}
-         <MapBoxMap coordinates={coordinates}  />
+              {coordinates && <BuildingCard coordinates={coordinates} />}  
+            <MapBoxMap coordinates={coordinates}  />
         </div>
         
        

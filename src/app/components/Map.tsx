@@ -16,6 +16,7 @@ import useMapClick from '../hooks/useMapClick';
 import useMapView from '../hooks/useMapView';
 import useVenueMaker from '../hooks/useVenueMaker';
 import clsx from 'clsx';
+import Link from 'next/link';
 
 const imageUrl =
   'https://diginit.sites.olt.ubc.ca/files/2023/07/1.0410990-1024x683.jpg';
@@ -302,7 +303,7 @@ export default function BasicExample() {
                 50m ● 3rd Floor
               </span>
               <button className='bg-rose-500 hover:bg-rose-700 text-white font-semibold py-1 px-4 rounded'>
-                Exit
+                <Link href="/homepage">Exit</Link>
               </button>
             </div>
           </div>

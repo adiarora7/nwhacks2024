@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Location } from "../Search/SearchBox";
+import Link from "next/link";
 import MotionWrapper from '../motion';
 import styles from "./buildingCard.module.scss";
 import {
@@ -28,10 +29,14 @@ export default function BuildingCard({
 
   return (
     <Card className="flex flex-col items-start bg-[#F8F8F8] !opacity-100 w-full z-10 pt-3 !rounded-bl-none !rounded-br-none">
-      <CardHeader className="pb-0 !mb-0">
+      <div className="flex flex-row justify-between w-full">
+      <CardHeader className="pb-0 !mb-0 ">
         <CardTitle className="text-lg">{coordinates?.name}</CardTitle>
         <CardDescription>{coordinates?.address}</CardDescription>
       </CardHeader>
+      <div className="flex justify-end pr-4"><svg xmlns="http://www.w3.org/2000/svg" height={28} width={28} viewBox="0 0 24 24" fill="currentColor"><path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM12 10.5858L9.17157 7.75736L7.75736 9.17157L10.5858 12L7.75736 14.8284L9.17157 16.2426L12 13.4142L14.8284 16.2426L16.2426 14.8284L13.4142 12L16.2426 9.17157L14.8284 7.75736L12 10.5858Z"></path></svg>
+      </div>
+      </div>
       <CardHeader className="!pt-0 !mt-2">
         <div className="flex w-full flex-col">
           <div className="flex w-full">
@@ -63,7 +68,7 @@ export default function BuildingCard({
           </div>
           {/* three buttons */}
           <div className="flex w-full h-full items-center justify-between mt-4">
-              <Button className="flex w-full mr-2 bg-[#319795] font-semibold text-white">View Indoor Map</Button>
+              <Button className="flex w-full mr-2 bg-[#319795] font-semibold text-white"><Link href={"/map"}>View Indoor Map</Link></Button>
               <Button className="flex w-full mr-2 bg-[#D53F8C] font-semibold text-white">Give a Rating</Button>
               <Button className="flex h-10 w-10 rounded-md bg-black">
                 <CameraIcon />
