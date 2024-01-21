@@ -60,6 +60,7 @@ export default function BuildingCard({
             <img
               src={
                 coordinates.name in locationImage
+                // @ts-ignore
                   ? locationImage[coordinates.name]
                   : defaultLocationImage
               }
@@ -73,8 +74,6 @@ export default function BuildingCard({
               <Button className="flex h-10 w-10 rounded-md bg-black">
                 <CameraIcon />
               </Button>
-            
-
           </div>
         </div>
       </CardHeader>
